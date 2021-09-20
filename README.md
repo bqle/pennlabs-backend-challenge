@@ -40,7 +40,7 @@ and the list of users who has favorited a club, which can be used to create a ma
    favorited a club and list of clubs that a user has liked are easily retrieved
 3. An API to delete a club by its code is added. This is useful in cases where clubs have disbanded
    and we want to free up space and open up the code to future clubs 
-4. I have completed the sign up/login/logout challenge. After the user sign-in, we send them a session_key
+4. I have completed the **sign up/login/logout challenge**. After the user sign-in, we send them a session_key
    which acts as a temporary key that can be safely stored as a cookie on the client without
    the client having to store the email-password pair. With this key, the client no longer has to send
    both their email and password for every authentication. Since our key has length 20, each position with 62 choices,
@@ -51,7 +51,7 @@ and the list of users who has favorited a club, which can be used to create a ma
    - Immediately after sign up, the user is given a valid key to have immediate access to site features 
      (no need to login again).
    - I use bcrypt (as wanted) for password hashing - we do not store passwords in plaintext.
-5. I have also completed the unit test challenge. Leveraging the http error codes, I tested exhaustively 
+5. I have also completed the **unit test challenge**. Leveraging the http error codes, I tested exhaustively 
    for all errors that the server will raise. In the file unittest.py, I employed the library unittest's
    convenient interface with flask to write over 50 test cases that should cover the most common errors
    that can occur - from POST request missing data to invalid login permission.
