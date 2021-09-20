@@ -5,13 +5,7 @@ from bootstrap import session_key
 from app import app, db, DB_FILE
 from models import User, Club, Tag
 
-TEST_DB = 'clubreview.db'
-
 class BasicTests(unittest.TestCase):
-    ############################
-    #### setup and teardown ####
-    ############################
-
     # executed prior to each test
     def setUp(self):
         app.config['TESTING'] = True
@@ -33,9 +27,7 @@ class BasicTests(unittest.TestCase):
     def tearDown(self):
         pass
 
-    ###############
-    #### tests ####
-    ###############
+    """ TESTS ARE BELOW """
     def test_main_page(self):
         print("\n Testing /")
         response = self.app.get('/', follow_redirects=True)
