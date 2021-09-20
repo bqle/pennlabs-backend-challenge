@@ -8,10 +8,7 @@ verify_ssl = true
 [packages]
 flask = "*"
 flask-sqlalchemy = "*"
-datetime = "*"
-json = "*"
 bcrypt = "*"
-random = "*"
 unittest = "*"
 
 [requires]
