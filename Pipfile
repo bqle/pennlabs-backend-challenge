@@ -8,6 +8,11 @@ verify_ssl = true
 [packages]
 flask = "*"
 flask-sqlalchemy = "*"
+datetime = "*"
+json = "*"
+werkzeug = "*"
+bcrypt = "*"
+random = "*"
 
 [requires]
 python_version = "3.7"

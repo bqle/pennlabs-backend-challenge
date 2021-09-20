@@ -1,14 +1,37 @@
 import os
-from app import db, DB_FILE
+import json
+from app import DB_FILE
+from models import *
 
 def create_user():
-    print("TODO: Create a user called josh")
+    josh = User(email="josh@upenn.edu", username="josh", pw_plain="joshiscool")
+    db.session.add(josh)
+
 
 def load_data():
-    from models import *
-    print("TODO: Load in clubs.json to the database.")
+    clubs_file = open("clubs.json")
+    clubs_data = clubs_file.read()
+    clubs_file.close()
+    clubs_list = json.loads(clubs_data)
+    # dictionary containing tag string and tag objects
+    all_tags = {}
 
+    for club in clubs_list :
+        club_obj = Club(code=club['code'],
+                        name=club['name'],
+                        description=club['description'])
+        # removing duplicate tags
+        club['tags'] = list(set(club['tags']))
+        for tag in club['tags'] :
+            if (tag not in all_tags) :
+                tag_obj = Tag(name=tag)
+                all_tags[tag] = tag_obj
+            club_obj.tags.append(all_tags[tag])
 
+        db.session.add(club_obj)
+        print("added club " + club['name'])
+
+    db.session.commit()
 
 # No need to modify the below code.
 if __name__ == '__main__':
