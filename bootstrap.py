@@ -5,7 +5,7 @@ from models import *
 import random
 
 session_key = ''.join(random.choice('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefjhiklmnopqrstuvwxyz')
-                      for i in range(20))
+                      for i in range(30))
 def create_user():
     josh = User(email="josh@upenn.edu", username="josh", pw_plain="joshiscool")
     # also logs josh in for testing purposes
@@ -18,7 +18,7 @@ def create_user():
     db.session.add(andy)
 
 def load_data():
-    print("loading data into db")
+    print("Loading data into db...")
     clubs_file = open("clubs.json")
     clubs_data = clubs_file.read()
     clubs_file.close()
@@ -39,9 +39,9 @@ def load_data():
             club_obj.tags.append(all_tags[tag])
 
         db.session.add(club_obj)
-        print("added club " + club['name'])
 
     db.session.commit()
+    print("Finished loading data.")
 
 # No need to modify the below code.
 if __name__ == '__main__':

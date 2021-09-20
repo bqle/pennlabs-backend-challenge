@@ -19,7 +19,6 @@ class BasicTests(unittest.TestCase):
         bootstrap.create_user()
         bootstrap.load_data()
 
-        print(session_key)
         # Disable sending emails during unit testing
         self.assertEqual(app.debug, False)
 
@@ -29,30 +28,33 @@ class BasicTests(unittest.TestCase):
 
     """ TESTS ARE BELOW """
     def test_main_page(self):
-        print("\n Testing /")
+        print("Testing /")
         response = self.app.get('/', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
+        print("Success\n")
 
     def test_api(self):
-        print("\n Testing /api")
+        print("Testing /api")
         response = self.app.get('/api')
         self.assertEqual(response.status_code, 200)
+        print("Success\n")
 
     def test_clubs_all(self):
-        print("\n Testing /api/clubs/")
+        print("Testing /api/clubs/")
         response = self.app.get('/api/clubs')
         data = json.loads(response.data)
-
         assert len(data) == 5
+        print("Success\n")
 
     def test_clubs_search(self):
-        print("\n Testing /api/clubs/search")
+        print("Testing /api/clubs/search")
         response = self.app.get('/api/clubs/search?string=penn')
         data = json.loads(response.data)
         assert len(data) == 4
+        print("Success\n")
 
     def test_clubs_favorite_users(self):
-        print("\n Testing /api/clubs/favorite_users valid")
+        print("Testing /api/clubs/favorite_users valid")
         josh = User.query.filter_by(email='josh@upenn.edu').first()
         pppjo_club = Club.query.filter_by(code='pppjo').first()
         pppjo_club.favorites.append(josh)
@@ -62,17 +64,20 @@ class BasicTests(unittest.TestCase):
         data = json.loads(response.data)
         assert len(data) == 1
         assert data[0]['username'] == 'josh'
+        print("Success")
 
-        print("\n Testing /api/clubs/favorite_users with non_existent club")
+        print("Testing /api/clubs/favorite_users with non_existent club")
         response = self.app.get('/api/clubs/favorite_users?code=non_existent')
         self.assertEqual(response.status_code, 404)
+        print("Success")
 
-        print("\n Testing /api/clubs/favorite_users without code and name")
+        print("Testing /api/clubs/favorite_users without code and name")
         response = self.app.get('/api/clubs/favorite_users')
         self.assertEqual(response.status_code, 406)
+        print("Success\n")
 
     def test_clubs_create(self):
-        print("\n Testing /api/clubs/create valid")
+        print("Testing /api/clubs/create valid")
         response = self.app.post('/api/clubs/create',data=json.dumps(dict(
             session_key= session_key,
             code= 'pppal',
@@ -81,30 +86,34 @@ class BasicTests(unittest.TestCase):
             tags=['LiTeraRY', 'UnderGRADuate']
         )))
         self.assertEqual(response.status_code, 200)
+        print("Success")
 
-        print("\n Testing /api/clubs/create club exists")
+        print("Testing /api/clubs/create club exists")
         response = self.app.post('/api/clubs/create',data=json.dumps(dict(
             session_key= session_key,
             code= 'pppal',
             name='Penn Pal',
         )))
         self.assertEqual(response.status_code, 406)
+        print("Success")
 
-        print("\n Testing /api/clubs/create missing code and name")
+        print("Testing /api/clubs/create missing code and name")
         response = self.app.post('/api/clubs/create',data=json.dumps(dict(
             session_key= session_key,
         )))
         self.assertEqual(response.status_code, 406)
+        print("Success")
 
-        print("\n Testing /api/clubs/create permission denied")
+        print("Testing /api/clubs/create permission denied")
         response = self.app.post('/api/clubs/create',data=json.dumps(dict(
             code= 'pppal',
             name='Penn Pal',
         )))
         self.assertEqual(response.status_code, 404)
+        print("Success\n")
 
     def test_clubs_modify(self):
-        print("\n Testing /api/clubs/modify valid")
+        print("Testing /api/clubs/modify valid")
         response = self.app.post('/api/clubs/modify',data=json.dumps(dict(
             session_key= session_key,
             code= 'pppjo',
@@ -116,16 +125,18 @@ class BasicTests(unittest.TestCase):
             }
         )))
         self.assertEqual(response.status_code, 200)
+        print("Success")
 
-        print("\n Testing /api/clubs/modify invalid code")
+        print("Testing /api/clubs/modify invalid code")
         response = self.app.post('/api/clubs/modify',data=json.dumps(dict(
             session_key= session_key,
             code= 'pppal',
             name='Penn Pal',
         )))
         self.assertEqual(response.status_code, 406)
+        print("Success")
 
-        print("\n Testing /api/clubs/modify new name causes conflict")
+        print("Testing /api/clubs/modify new name causes conflict")
         response = self.app.post('/api/clubs/modify',data=json.dumps(dict(
             session_key= session_key,
             code= 'lorem-ipsum',
@@ -137,160 +148,184 @@ class BasicTests(unittest.TestCase):
             }
         )))
         self.assertEqual(response.status_code, 406)
+        print("Success")
 
-        print("\n Testing /api/clubs/modify permission denied")
+        print("Testing /api/clubs/modify permission denied")
         response = self.app.post('/api/clubs/modify',data=json.dumps(dict(
             session_key=session_key+"l",
             code= 'pppal',
             name='Penn Pal',
         )))
         self.assertEqual(response.status_code, 404)
+        print("Success\n")
 
     """
         Since all helper functions have been tested thoroughly through
         we will now test only api-specific cases
     """
     def test_clubs_delete(self):
-        print("\n Testing /api/clubs/delete valid")
+        print("Testing /api/clubs/delete valid")
         response = self.app.post('/api/clubs/delete',data=json.dumps(dict(
             session_key= session_key,
             code= 'pppjo',
             name= 'Penn Pre-Professional Juggling Organization',
         )))
         self.assertEqual(response.status_code, 200)
+        print("Success")
 
-        print("\n Testing /api/clubs/delete invalid code name pair")
+        print("Testing /api/clubs/delete invalid code name pair")
         response = self.app.post('/api/clubs/delete',data=json.dumps(dict(
             session_key= session_key,
             code= 'ppcool',
             name= 'Penn Pal',
         )))
         self.assertEqual(response.status_code, 406)
+        print("Success\n")
 
     def test_user_get(self):
-        print("\n Testing /api/clubs/delete valid")
+        print("Testing /api/clubs/delete valid")
         response = self.app.get('/api/user?username=josh')
         self.assertEqual(response.status_code, 200)
+        print("Success")
 
-        print("\n Testing /api/user/delete username doesnt exists")
+        print("Testing /api/user/delete username doesnt exists")
         response = self.app.get('/api/user?username=bob')
         self.assertEqual(response.status_code, 404)
+        print("Success\n")
 
     def test_user_favoriting(self):
-        print("\n Testing /api/user/favoriting valid")
+        print("Testing /api/user/favoriting valid")
         response = self.app.post('/api/user/favoriting',data=json.dumps(dict(
             session_key= session_key,
             code= 'pppjo'
         )))
         self.assertEqual(response.status_code, 200)
+        print("Success")
 
-        print("\n Testing /api/user/favoriting invalid club code")
+        print("Testing /api/user/favoriting invalid club code")
         response = self.app.post('/api/user/favoriting',data=json.dumps(dict(
             session_key= session_key,
             code= 'ppcool',
         )))
         self.assertEqual(response.status_code, 406)
+        print("Success\n")
 
     def test_user_favorite_clubs(self):
-        print("\n Testing /api/user/favorite_clubs valid")
+        print("Testing /api/user/favorite_clubs valid")
         response = self.app.get('/api/user/favorite_clubs?username=josh')
         self.assertEqual(response.status_code, 200)
+        print("Success")
 
-        print("\n Testing /api/user/favorite_clubs missing username and email")
+        print("Testing /api/user/favorite_clubs missing username and email")
         response = self.app.get('/api/user/favorite_clubs')
         self.assertEqual(response.status_code, 406)
+        print("Success")
 
-        print("\n Testing /api/user/favorite_clubs user doesn't exist")
+        print("Testing /api/user/favorite_clubs user doesn't exist")
         response = self.app.get('/api/user/favorite_clubs?username=bob')
         self.assertEqual(response.status_code, 404)
+        print("Success\n")
 
     def test_user_login(self):
-        print("\n Testing /api/user/login valid")
+        print("Testing /api/user/login valid")
         response = self.app.post('/api/user/login',data=json.dumps(dict(
             email='josh@upenn.edu',
             password= 'joshiscool'
         )))
         self.assertEqual(response.status_code, 200)
+        print("Success")
 
-        print("\n Testing /api/user/login invalid email")
+        print("Testing /api/user/login invalid email")
         response = self.app.post('/api/user/login',data=json.dumps(dict(
             email='bobby@upenn.edu',
             password= 'bobbyiscool'
         )))
         self.assertEqual(response.status_code, 406)
+        print("Success")
 
-        print("\n Testing /api/user/login wrong password")
+        print("Testing /api/user/login wrong password")
         response = self.app.post('/api/user/login',data=json.dumps(dict(
             email='josh@upenn.edu',
             password= 'joshsucks'
         )))
         self.assertEqual(response.status_code, 404)
+        print("Success\n")
 
     def test_user_signup(self):
-        print("\n Testing /api/user/signup valid")
+        print("Testing /api/user/signup valid")
         response = self.app.post('/api/user/signup',data=json.dumps(dict(
             email='bqle@upenn.edu',
             password= 'bqleiscool',
             username= 'bqle'
         )))
         self.assertEqual(response.status_code, 200)
+        print("Success")
 
-        print("\n Testing /api/user/signup email already exists")
+        print("Testing /api/user/signup email already exists")
         response = self.app.post('/api/user/signup',data=json.dumps(dict(
             email='josh@upenn.edu',
             password= 'joshv2',
             username= 'joshv2'
         )))
         self.assertEqual(response.status_code, 406)
+        print("Success")
 
-        print("\n Testing /api/user/signup missing fields")
+        print("Testing /api/user/signup missing fields")
         response = self.app.post('/api/user/signup',data=json.dumps(dict(
             email='sammy@upenn.edu',
             password= 'sammy'
         )))
         self.assertEqual(response.status_code, 406)
+        print("Success\n")
 
     def test_user_logout(self):
-        print("\n Testing /api/user/logout valid")
+        print("Testing /api/user/logout valid")
         response = self.app.post('/api/user/logout',data=json.dumps(dict(
             session_key=session_key
         )))
         self.assertEqual(response.status_code, 200)
+        print("Success")
 
-        print("\n Testing /api/user/logout wrong session_key")
+        print("Testing /api/user/logout wrong session_key")
         response = self.app.post('/api/user/logout',data=json.dumps(dict(
             session_key=session_key+"as"
         )))
         self.assertEqual(response.status_code, 404)
+        print("Success")
 
-        print("\n Testing /api/user/logout no session_key")
+        print("Testing /api/user/logout no session_key")
         response = self.app.post('/api/user/logout',data=json.dumps(dict(
         )))
         self.assertEqual(response.status_code, 404)
+        print("Success\n")
 
     def test_tag(self):
-        print("\n Testing /api/tag exist")
+        print("Testing /api/tag exist")
         response = self.app.get('/api/tag')
         json_response = json.loads(response.data)
         print(json_response)
         assert len(json_response) == 7
         self.assertEqual(response.status_code, 200)
+        print("Success\n")
 
     def test_tag_search(self):
-        print("\n Testing /api/tag exist")
+        print("Testing /api/tag exist")
         response = self.app.get('/api/tag/search?tag=Undergraduate')
         json_response = json.loads(response.data)
         print(json_response)
         assert len(json_response['clubs']) == 4
         self.assertEqual(response.status_code, 200)
+        print("Success")
 
-        print("\n Testing /api/tag doesn't exist")
+        print("Testing /api/tag doesn't exist")
         response = self.app.get('/api/tag/search?tag=undergrad')
         self.assertEqual(response.status_code, 406)
+        print("Success")
 
-        print("\n Testing /api/tag no tag param")
+        print("Testing /api/tag no tag param")
         response = self.app.get('/api/tag/search')
         self.assertEqual(response.status_code, 404)
+        print("Success\n")
 
 if __name__ == "__main__":
     unittest.main()

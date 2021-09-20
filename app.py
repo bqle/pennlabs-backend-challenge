@@ -50,7 +50,7 @@ def has_required_fields (json, field_list) :
 """ APIs """
 @app.route('/')
 def main():
-    return jsonify({"message": "Welcome to Penn Club Review!"}), 200
+    return "Welcome to Penn Club Review!", 200
 
 @app.route('/api')
 def api():
@@ -318,7 +318,7 @@ def login():
     if bcrypt.checkpw(password, user_placeholder.password_hash):
         # if successful, we return with a session key, which expires in 24 hours
         user_placeholder.session_key = ''.join(random.choice('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefjhiklmnopqrstuvwxyz')
-                                               for i in range(20))
+                                               for i in range(30))
         user_placeholder.session_expiration = datetime.datetime.now() + datetime.timedelta(hours=24)
         db.session.commit()
         key_data = {
@@ -353,7 +353,7 @@ def signup():
 
     new_user = User(email=email, username=username, pw_plain=password)
     session_key = ''.join(random.choice('0123456789ABCDEFGHIJKLMNOPabcdefjhiklmnop')
-                          for i in range(20))
+                          for i in range(30))
     # session_key expires in 24 hours
     session_expiration = datetime.datetime.now() + datetime.timedelta(hours=24)
     new_user.session_key = session_key

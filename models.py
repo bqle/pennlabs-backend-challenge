@@ -51,9 +51,9 @@ class Tag (db.Model) :
 class User (db.Model):
     # using emails as primary key because...
     email = db.Column(db.String, unique=True, nullable=False, primary_key=True)
-    username = db.Column(db.String(20), unique=True, nullable=False)
+    username = db.Column(db.String, unique=True, nullable=False)
     password_hash = db.Column(db.String, unique=False, nullable=False)
-    session_key = db.Column(db.String(20), nullable=True)
+    session_key = db.Column(db.String(30), nullable=True)
     session_expiration = db.Column(db.DateTime, nullable=True)
 
 
