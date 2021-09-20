@@ -2,13 +2,23 @@ import os
 import json
 from app import DB_FILE
 from models import *
+import random
 
+session_key = ''.join(random.choice('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefjhiklmnopqrstuvwxyz')
+                      for i in range(20))
 def create_user():
     josh = User(email="josh@upenn.edu", username="josh", pw_plain="joshiscool")
+    # also logs josh in for testing purposes
+    josh.session_key = session_key
+    josh.session_expiration = datetime.datetime.now() + datetime.timedelta(hours=24)
     db.session.add(josh)
 
+    # for login testing
+    andy = User(email="andy@upenn.edu", username="andy", pw_plain="andyiscool")
+    db.session.add(andy)
 
 def load_data():
+    print("loading data into db")
     clubs_file = open("clubs.json")
     clubs_data = clubs_file.read()
     clubs_file.close()
@@ -24,7 +34,7 @@ def load_data():
         club['tags'] = list(set(club['tags']))
         for tag in club['tags'] :
             if (tag not in all_tags) :
-                tag_obj = Tag(name=tag)
+                tag_obj = Tag(name=tag.lower())
                 all_tags[tag] = tag_obj
             club_obj.tags.append(all_tags[tag])
 

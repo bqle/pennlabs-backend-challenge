@@ -10,9 +10,9 @@ flask = "*"
 flask-sqlalchemy = "*"
 datetime = "*"
 json = "*"
-werkzeug = "*"
 bcrypt = "*"
 random = "*"
+unittest = "*"
 
 [requires]
 python_version = "3.7"

@@ -3,6 +3,9 @@ from enum import Enum
 import datetime
 import bcrypt
 
+# Your database models should go here.
+# Check out the Flask-SQLAlchemy quickstart for some good docs!
+# https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/
 
 """ Creating tables to be used by database. They include:
     tags: many-to-many table between club and tag
@@ -64,9 +67,4 @@ class User (db.Model):
         #session_expiration must be in the format of datetime strftime return
         self.session_expiration = None if session_expiration is None \
                                         else datetime.strptime(session_expiration)
-
-
-# Your database models should go here.
-# Check out the Flask-SQLAlchemy quickstart for some good docs!
-# https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/
 
