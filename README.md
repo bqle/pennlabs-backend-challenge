@@ -43,9 +43,8 @@ and the list of users who has favorited a club, which can be used to create a ma
    the client having to store the email-password pair. With this key, the client no longer has to send
    both their email and password for every authentication. Since our key has length 20, each position with 62 choices,
    there are 62^20 possible keys so it will be quite rare for key collision to occur. To even further strengthen
-   security, the key length can be increased at will.
-   <br/ >
-   Couple of other challenge design features:<br/ >
+   security, the key length can be increased at will.\
+   Couple of other challenge design features:
    - For every post request other than sign up and login, authentication requires a valid session_key.
    - Immediately after sign up, the user is given a valid key to have immediate access to site features 
      (no need to login again).
