@@ -1,7 +1,7 @@
 # Penn Labs Backend Challenge
 
 ## Documentation
-###Reasonings behind sqlalchemy models
+### Reasonings behind sqlalchemy models
 
 1. User: 
 - email is used as primary key because every Penn community has one, and it is shared by many services so people 
@@ -20,7 +20,7 @@
 - favorites is a relationship field that connect to users that have favorited the club 
 3. Tag
 - tag is a simple lower case string. For display purposes, we will capitalize the first letter on the client if desired
-###Why many-to-many relationships
+### Why many-to-many relationships
 1. Clubs and tags relationship
 - Core idea: A club can have many tags, and a tag can be used by many clubs
 - Many-to-many table relationships allow for useful searches such as the list of clubs that have a tag
@@ -30,7 +30,7 @@ or the list of tags that a club possess
 - Allows for useful searches such as the list of clubs a user has favorited (which I implemented)
 and the list of users who has favorited a club, which can be used to create a mailing list or listserv
 
-###Extra features & challenge features
+### Extra features & challenge features
 1. Response codes are included in every one of our http response along with an error message or json 
    to let the user know what went wrong - or be able to easily handle the response's data.
    We also have print statements on the server side to log events.
